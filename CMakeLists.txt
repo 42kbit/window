@@ -10,6 +10,8 @@ src/window/monitor.c
 src/window/events.c
 src/window/win_bar.c
 src/window/kb_input.c
+src/window/mouse_input.c
+src/window/unicode_input.c
 )
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)

@@ -9,6 +9,8 @@
 struct window{
 	GLFWwindow* glfw_win;
 	key_cb key_cb;
+	mse_cb mpos_cb, menter_cb, mbutton_cb;
+	uni_cb uni_cb;
 
 	/* tree key is glfw_win (assumed restrict)! */
 	struct tree_node bst_node;

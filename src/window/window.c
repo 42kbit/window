@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include <GLFW/glfw3.h>
 #include <internal/glfw_window.h>
 #include <internal/glfw_callbacks.h>
@@ -26,6 +27,7 @@ window_t* create_window(
 	if (!win){
 		return NULL;
 	}
+	memset(win, 0, sizeof(struct window));
 	GLFWmonitor* glfw_moni = __get_glfw_monitor(monitor);
 	win->glfw_win = glfwCreateWindow(
 			w,

@@ -36,3 +36,7 @@ void glfw_key_callback(
 	if (win->key_cb)
 		win->key_cb(win, &key);
 }
+
+const char* key_to_str(struct key*){
+	return glfwGetKeyName(key.keycode, key.keycode);
+}
