@@ -34,16 +34,18 @@ void vsync_set(int);
 
 /* inputs here */
 
+void wait_events(window_t*);
 void poll_events(window_t*);
 
-typedef void(*gen_cb)(window_t*);
-void set_key_cb(window_t*, gen_cb);
-void set_mouse_cb(window_t*, gen_cb);
-
 struct key;
+
+typedef void(*key_cb)(window_t*, struct key*);
+void set_key_cb(window_t*, key_cb);
+
 int key_keycode(struct key*);
-int key_scancode(struct key*);
-int key_press_type(struct key*);
+int key_action(struct key*);
 int key_flags(struct key*);
+
+const char* key_to_str(struct key*);
 
 #endif /* _H_WINDOW_H */

@@ -4,7 +4,12 @@ set(PROJECT_NAME window)
 project(${PROJECT_NAME})
 
 add_library(${PROJECT_NAME} SHARED
-src/window.c
+src/window/window.c
+src/window/vsync.c
+src/window/monitor.c
+src/window/events.c
+src/window/win_bar.c
+src/window/kb_input.c
 )
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
