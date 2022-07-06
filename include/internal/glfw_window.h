@@ -5,25 +5,30 @@
 #include <bin_tree.h>
 #include <stdlib.h>
 
+#include <internal/glfw_input.h>
+
 /* window and monitors */
 struct window{
 	GLFWwindow* glfw_win;
-	key_cb key_cb;
-	mse_cb mpos_cb, menter_cb, mbutton_cb;
-	uni_cb uni_cb;
+	gen_cb keyboard_cb, 
+	       mouse_pos_cb, mouse_enter_cb, mouse_button_cb,
+	       unicode_cb;
+
+	struct input* input;
 
 	/* tree key is glfw_win (assumed restrict)! */
 	struct tree_node bst_node;
 };
 typedef struct window window_t;
 
-window_t* from_glfw_win(GLFWwindow*);
+struct window* from_glfw_win(GLFWwindow*);
 
 static inline void swindow_free(void* node){
 	struct window *entry = get_entry(
 			(struct tree_node*)node, 
 			struct window, bst_node);
 	glfwDestroyWindow(entry->glfw_win);
+	free_input(entry->input);
 	free(entry);
 }
 

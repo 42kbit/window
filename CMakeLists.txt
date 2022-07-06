@@ -8,8 +8,8 @@ src/window/window.c
 src/window/vsync.c
 src/window/monitor.c
 src/window/events.c
-src/window/win_bar.c
-src/window/kb_input.c
+src/window/window_bar.c
+src/window/keyboard_input.c
 src/window/mouse_input.c
 src/window/unicode_input.c
 )

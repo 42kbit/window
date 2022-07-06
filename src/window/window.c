@@ -8,7 +8,7 @@
 
 static struct tree_node* win_root = NULL;
 
-window_t* from_glfw_win(GLFWwindow* win){
+struct window* from_glfw_win(GLFWwindow* win){
 	struct tree_node* node = bst_find(win_root, win, swindow_cmp_key);
 	if (!node)
 		return NULL;
@@ -16,18 +16,19 @@ window_t* from_glfw_win(GLFWwindow* win){
 		return get_entry(node, struct window, bst_node);
 }
 
-window_t* create_window(
+struct window* create_window(
 		char* name,
 		int w, 
 		int h, 
-		monitor_t* monitor
+		struct monitor* monitor
 		)
 {
-	window_t* win = (window_t*)malloc(sizeof(window_t));
+	struct window* win = (struct window*)malloc(sizeof(struct window));
 	if (!win){
 		return NULL;
 	}
 	memset(win, 0, sizeof(struct window));
+	win->input = create_input();
 	GLFWmonitor* glfw_moni = __get_glfw_monitor(monitor);
 	win->glfw_win = glfwCreateWindow(
 			w,
@@ -58,13 +59,13 @@ void free_window(struct window* win){
 		win_root = NULL;
 	swindow_free(&(win->bst_node));
 }
-int is_open(window_t* win){
+int is_open(struct window* win){
 	return !glfwWindowShouldClose(win->glfw_win);
 }
-void swap_buffers(window_t* win){
+void swap_buffers(struct window* win){
 	glfwSwapBuffers(win->glfw_win);
 }
-void make_cur_context(window_t* win){
+void make_cur_context(struct window* win){
 	glfwMakeContextCurrent(win->glfw_win);
 }
 int init_window_lib(void){

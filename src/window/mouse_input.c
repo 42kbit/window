@@ -1,62 +1,56 @@
 #include <internal/glfw_window.h>
 #include <GLFW/glfw3.h>
-struct mouse{
-	double mpos[2];
-	int entered;
-	int button;
-	int action;
-	int flags;
-};
 
-static struct mouse mouse;
-
-void set_mouse_cb_pos(struct window* win, mse_cb c){
-	win->mpos_cb = c;
+void set_mouse_pos_cb(struct window* win, gen_cb c){
+	win->mouse_pos_cb = c;
 }
-void set_mouse_cb_enter(struct window* win, mse_cb c){
-	win->menter_cb = c;
+void set_mouse_enter_cb(struct window* win, gen_cb c){
+	win->mouse_enter_cb = c;
 }
-void set_mouse_cb_button(struct window* win, mse_cb c){
-	win->mbutton_cb = c;
+void set_mouse_button_cb(struct window* win, gen_cb c){
+	win->mouse_button_cb = c;
 }
-void mouse_pos(struct mouse* mouse, double* d){
-	d[0] = mouse->mpos[0];
-	d[1] = mouse->mpos[1];
+void mouse_pos(struct window* win, double* d){
+	d[0] = win->input->mouse_pos[0];
+	d[1] = win->input->mouse_pos[1];
 }
-int mouse_entered(struct mouse* mouse){
-	return mouse->entered;
+int mouse_entered(struct window* win){
+	return win->input->mouse_entered;
 }
-int mouse_button(struct mouse* mouse){
-	return mouse->button;
+int mouse_button(struct window* win){
+	return win->input->mouse_button;
 }
-int mouse_action(struct mouse* mouse){
-	return mouse->action;
+int mouse_action(struct window* win){
+	return win->input->mouse_action;
 }
-int mouse_flags(struct mouse* mouse){
-	return mouse->flags;
+int mouse_flags(struct window* win){
+	return win->input->mouse_flags;
 }
 void cursor_position_callback(GLFWwindow* window, 
 		double xpos, double ypos)
 {
-	mouse.mpos[0] = xpos;
-	mouse.mpos[1] = ypos;
 	struct window* win = from_glfw_win(window);
-	if (win && win->mpos_cb)
-		win->mpos_cb(win, &mouse);
+	if (!win) return;
+	win->input->mouse_pos[0] = xpos;
+	win->input->mouse_pos[1] = ypos;
+	if (win->mouse_pos_cb)
+		win->mouse_pos_cb(win);
 }
 void cursor_enter_callback(GLFWwindow* window, int entered){
-	mouse.entered = entered;
 	struct window* win = from_glfw_win(window);
-	if (win && win->menter_cb)
-		win->menter_cb(win, &mouse);
+	if (!win) return;
+	win->input->mouse_entered = entered;
+	if (win->mouse_enter_cb)
+		win->mouse_enter_cb(win);
 }
 void mouse_button_callback(GLFWwindow* window, int button, 
 		int action, int mods)
 {
-	mouse.button = button;
-	mouse.action = action;
-	mouse.flags = mods;
 	struct window* win = from_glfw_win(window);
-	if (win && win->mbutton_cb)
-		win->mbutton_cb(win, &mouse);
+	if (!win) return;
+	win->input->mouse_button = button;
+	win->input->mouse_action = action;
+	win->input->mouse_flags = mods;
+	if (win->mouse_button_cb)
+		win->mouse_button_cb(win);
 }

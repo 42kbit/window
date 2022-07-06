@@ -37,33 +37,24 @@ void vsync_set(int);
 void wait_events(window_t*);
 void poll_events(window_t*);
 
-typedef void(*uni_cb)(struct window*, int unichar);
+typedef void(*gen_cb)(struct window*);
 /* assumed 32-bit unsigned int */
-void set_unicode_cb(struct window*, uni_cb cb);
 
-struct key;
+void set_unicode_cb(struct window*, gen_cb);
+void set_keyboard_key_cb(struct window*, gen_cb);
+void set_mouse_pos_cb(struct window*, gen_cb);
+void set_mouse_enter_cb(struct window*, gen_cb);
+void set_mouse_button_cb(struct window*, gen_cb);
 
-typedef void(*key_cb)(window_t*, struct key*);
-void set_key_cb(window_t*, key_cb);
+int key_keycode(struct window*);
+int key_action(struct window*);
+int key_flags(struct window*);
+const char* key_to_str(struct window*);
 
-int key_keycode(struct key*);
-int key_action(struct key*);
-int key_flags(struct key*);
-
-const char* key_to_str(struct key*);
-
-struct mouse;
-
-typedef void(*mse_cb)(struct window*, struct mouse*);
-
-void set_mouse_cb_pos(struct window*, mse_cb);
-void set_mouse_cb_enter(struct window*, mse_cb);
-void set_mouse_cb_button(struct window*, mse_cb);
-
-void mouse_pos(struct mouse* mouse, double*);
-int mouse_entered(struct mouse* mouse);
-int mouse_button(struct mouse* mouse);
-int mouse_action(struct mouse* mouse);
-int mouse_flags(struct mouse* mouse);
+void mouse_pos(struct window*, double*);
+int mouse_entered(struct window*);
+int mouse_button(struct window*);
+int mouse_action(struct window*);
+int mouse_flags(struct window*);
 
 #endif /* _H_WINDOW_H */
